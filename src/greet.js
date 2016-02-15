@@ -1,4 +1,5 @@
 export function greet(name) {
-  if(name) return 'hello ' + name;
-  return 'hello, my friend';
+  if(!name) name = 'my friend';
+  if(name === name.toUpperCase()) return 'HELLO ' + name.toUpperCase() + '!';
+  return 'Hello, ' + name;
 }
