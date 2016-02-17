@@ -21,7 +21,11 @@ describe('greet spec', () => {
   });
 
   it('handles arbitrary number of names in an input', () => {
-      expect(greet(["peter", "paul", "regina", "shannon"])).to.equal('Hello, peter, paul, regina, and shannon.');
+      expect(greet(["Amy", "Brian", "Charlotte"])).to.equal("Hello, Amy, Brian, and Charlotte.");
       expect(greet(["peter", "paul", "regina", "shannon", "mike", "tiffany", "jones"])).to.equal('Hello, peter, paul, regina, shannon, mike, tiffany, and jones.');
+  });
+
+  it('handles names with all caps in the array', () => {
+      expect(greet(["Amy", "BRIAN", "Charlotte"])).to.equal("Hello, Amy and Charlotte. AND HELLO BRIAN!");
   });
 });
