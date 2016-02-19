@@ -12,12 +12,11 @@ function handleArray(arrayOfNames) {
     let greetingText = "Hello, ";
 
     let lowerCaseNames = nameList.filterNot(name => name === name.toUpperCase());
-    let upperCaseNames = nameList.filter(name => name === name.toUpperCase());
-
     let lowerCaseList = prepareLowerCaseNames(lowerCaseNames);
-
     if (lowerCaseList.size === 2) greetingText += lowerCaseList.get(0) + " " + lowerCaseList.get(1);
     if (lowerCaseList.size > 2) greetingText += lowerCaseList.join(", ");
+
+    let upperCaseNames = nameList.filter(name => name === name.toUpperCase());
     if (upperCaseNames.size > 0) {
       return greetingText += " AND HELLO " + upperCaseNames.join(" ") + "!";
     }
