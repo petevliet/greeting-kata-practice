@@ -22,10 +22,15 @@ describe('greet spec', () => {
 
   it('handles arbitrary number of names in an input', () => {
       expect(greet(["Amy", "Brian", "Charlotte"])).to.equal("Hello, Amy, Brian, and Charlotte.");
-      expect(greet(["peter", "paul", "regina", "shannon", "mike", "tiffany", "jones"])).to.equal('Hello, peter, paul, regina, shannon, mike, tiffany, and jones.');
+      expect(greet(["peter", "paul", "regina", "shannon", "mike", "tiffany", "jones"]))
+        .to.equal('Hello, peter, paul, regina, shannon, mike, tiffany, and jones.');
   });
 
   it('handles names with all caps in the array', () => {
       expect(greet(["Amy", "BRIAN", "Charlotte"])).to.equal("Hello, Amy and Charlotte. AND HELLO BRIAN!");
   });
+
+  it('entries in name array containing a comma are split it as their own inputs', () => {
+      expect(greet(["Bob", "Charlie, Dianne"])).to.equal("Hello, Bob, Charlie, and Dianne.");
+  })
 });

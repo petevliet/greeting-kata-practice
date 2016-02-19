@@ -15,6 +15,15 @@ function handleArray(arrayOfNames) {
     let lowerCaseNames = nameList.filterNot(name => name === name.toUpperCase());
     let upperCaseNames = nameList.filter(name => name === name.toUpperCase());
 
+    lowerCaseNames.map((name, index) => {
+      if (name.match(/,/)) {
+        let namesSplit = Immutable.fromJS(name.split(', '));
+        lowerCaseNames = lowerCaseNames.set(index, namesSplit);
+      }
+      else lowerCaseNames = lowerCaseNames.set(index, name);
+    });
+
+    lowerCaseNames = lowerCaseNames.flatten();
     let lastIndex = lowerCaseNames.size - 1;
     let addAndToLastName = "and " + lowerCaseNames.get(lastIndex) + ".";
     let lastNameHasAnd = lowerCaseNames.update(lastIndex, name => addAndToLastName);
@@ -27,3 +36,7 @@ function handleArray(arrayOfNames) {
 
     return lowerCaseSentence;
 };
+
+function createLowerCaseSentence(lowerCaseNameList) {
+
+}
