@@ -8,35 +8,41 @@ export function greet(name = 'my friend') {
 }
 
 function handleArray(arrayOfNames) {
-    let lowerCaseSentence, combinedSentences;
     let nameList = Immutable.fromJS(arrayOfNames);
-    let hi = "Hello, ";
+    let greetingText = "Hello, ";
 
     let lowerCaseNames = nameList.filterNot(name => name === name.toUpperCase());
     let upperCaseNames = nameList.filter(name => name === name.toUpperCase());
 
-    lowerCaseNames.map((name, index) => {
-      if (name.match(/,/)) {
-        let namesSplit = Immutable.fromJS(name.split(', '));
-        lowerCaseNames = lowerCaseNames.set(index, namesSplit);
-      }
-      else lowerCaseNames = lowerCaseNames.set(index, name);
-    });
+    let lowerCaseList = prepareLowerCaseNames(lowerCaseNames);
 
-    lowerCaseNames = lowerCaseNames.flatten();
-    let lastIndex = lowerCaseNames.size - 1;
-    let addAndToLastName = "and " + lowerCaseNames.get(lastIndex) + ".";
-    let lastNameHasAnd = lowerCaseNames.update(lastIndex, name => addAndToLastName);
-
-    if (lastNameHasAnd.size === 2) lowerCaseSentence = hi + lastNameHasAnd.get(0) + " " + lastNameHasAnd.get(1);
-    if (lastNameHasAnd.size > 2) lowerCaseSentence = hi + lastNameHasAnd.join(", ");
+    if (lowerCaseList.size === 2) greetingText += lowerCaseList.get(0) + " " + lowerCaseList.get(1);
+    if (lowerCaseList.size > 2) greetingText += lowerCaseList.join(", ");
     if (upperCaseNames.size > 0) {
-      return combinedSentences = lowerCaseSentence + " AND HELLO " + upperCaseNames.join(" ") + "!";
+      return greetingText += " AND HELLO " + upperCaseNames.join(" ") + "!";
     }
 
-    return lowerCaseSentence;
+    return greetingText;
 };
 
-function createLowerCaseSentence(lowerCaseNameList) {
+function prepareLowerCaseNames(lowerCaseNameList) {
+  let lowerCaseNames = lowerCaseNameList;
 
+  lowerCaseNames.map((name, index) => {
+    if (name.match(/[/"]/)) {
+      let removeFirstQuote = name.replace('"', "");
+      let removeSecondQuote = removeFirstQuote.replace('"', "");
+      lowerCaseNames = lowerCaseNames.set(index, removeSecondQuote);
+    }
+    if (name.match(/,/) && !name.match(/[/"]/)) {
+      let namesSplit = Immutable.fromJS(name.split(', '));
+      lowerCaseNames = lowerCaseNames.set(index, namesSplit);
+    }
+  });
+  lowerCaseNames = lowerCaseNames.flatten();
+
+  let lastIndex = lowerCaseNames.size - 1;
+  let addAndToLastName = "and " + lowerCaseNames.get(lastIndex) + ".";
+
+  return lowerCaseNames.update(lastIndex, name => addAndToLastName);
 }

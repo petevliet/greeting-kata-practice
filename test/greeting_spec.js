@@ -32,5 +32,10 @@ describe('greet spec', () => {
 
   it('entries in name array containing a comma are split it as their own inputs', () => {
       expect(greet(["Bob", "Charlie, Dianne"])).to.equal("Hello, Bob, Charlie, and Dianne.");
-  })
+      expect(greet(["Bob", "Charlie, Dianne", "April"])).to.equal("Hello, Bob, Charlie, Dianne, and April.");
+  });
+
+  it('Allows the input to escape intentional commas', () => {
+      expect(greet(["Bob", "\"Charlie, Dianne\""])).to.equal("Hello, Bob and Charlie, Dianne.");
+  });
 });
